@@ -129,6 +129,12 @@ def canDestroy(card):
 		return False
 	return True
 
+def canShowNewKingTurn(card,x,y):
+	return isCouronne(card) and whoIsWinner() == False
+
+def canShowCalculateScore(card,x,y):
+	return isCouronne(card) and whoIsWinner() != False
+
 def doActionPersonnages(card,x=0,y=0):
 	doActionAssassin(card)
 	doActionVoleur(card)
@@ -328,12 +334,12 @@ def refreshBuildingCounter(a=0):
 	checkWinner()
 
 def checkWinner():
-	winner = isThereAWinner()
-	if winner and not eval(getGlobalVariable("winnerFound")):
+	winner = whoIsWinner()
+	if winner and getGlobalVariable("winnerFound") == "None":
 		notifyBarAll("{} a construit 7 batiments, c'est donc le dernier tour !".format(winner))
-		setGlobalVariable("winnerFound", "True")
+		setGlobalVariable("winnerFound", winner._id)
 
-def isThereAWinner():
+def whoIsWinner():
 	end = False
 	for player in getPlayers():
 		if player.quartiers_construits >= 7:
@@ -368,6 +374,45 @@ def pluriel(count):
 	if count > 1:
 		return 's'
 	return ''
+
+def calculateMyScore():
+	score = 0
+	
+	couleurs = {"Bleu":0, "Jaune":0, "Rouge":0, "Vert": 0, "Violet":0}
+	
+	mesQuartiers = [card for card in table if isQuartier(card) and card.controller == me]
+	for quartier in mesQuartiers:
+		score += eval(quartier.prix)
+		couleurs[quartier.couleur] =1
+	whisper("Base : Coût des Quartiers = {} points".format(score))
+	
+	for quartier in mesQuartiers:
+		if "Dracoport" in quartier.name or "Université" in quartier.name:
+			score += 2
+			whisper("Bonus : {} = 2 points supplémentaires".format(quartier.name))
+	
+	colorsSum = sum(couleurs.values())
+	if colorsSum == 5 or (colorsSum == 4 and isQuartierBuiltForPlayer("Cour des Miracles", me)):
+		score += 3
+		whisper("Bonus : Arc-en-ciel = 3 points")
+	
+	if me.quartiers_construits >= 7:
+		score += 2
+		whisper("Bonus : Cité terminée = 2 points")
+	
+	if me._id == eval(getGlobalVariable("winnerFound")):
+		score += 2
+		whisper("Bonus : Première cité terminée = 2 points")
+	
+	if isQuartierBuiltForPlayer("Trésor Impérial", me):
+		score += me.Or
+		whisper("Bonus : Trésor Impérial = {} points".format(str(me.Or)))
+	
+	if isQuartierBuiltForPlayer("Salle des Cartes", me):
+		score += len(me.hand)
+		whisper("Bonus : Salle des Carte = {} points".format(str(len(me.hand))))
+	
+	notify("Score total de {} : {} points".format(me, score))
 
 ######################
 #### PILE ACTIONS ####
@@ -432,8 +477,10 @@ def startMyTurn(a=0,b=0,c=0):
 				card.moveTo(me.hand)
 
 def newKingTurn(a=0,b=0,c=0):
-	if isThereAWinner():
-		notify("La partie est terminée, il faut compter les points")
+	if whoIsWinner() != False:
+		printGameDuration()
+		notify("La partie est terminée, calcul des scores:")
+		remoteCallAll("calculateMyScore", [])
 		return
 
 	for card in table:
