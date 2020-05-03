@@ -1,0 +1,79 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<game name="Citadelles"
+    id="af04f855-58c4-4db3-a191-45fe33381993"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    version="1.0.0.0" 
+    tags="Citadelles 45min 4-7joueurs"
+    description="[4-7 joueurs][45min]
+	&#xd;Dans Citadelles, chaque joueur doit bâtir une cité à l’aide de cartes représentant les quartiers de la ville. À chaque tour, les joueurs doivent incarner un personnage doté de pouvoir particulier. Le gagnant sera celui auquel ambition, fortune et filouterie auront permis de bâtir la plus belle cité."
+    setsurl="https://darkelwyn.github.io/octgn/Citadelles/ico.jpg" 
+	gameurl="https://darkelwyn.github.io/octgn/Citadelles/"
+    authors="RomElwyn"
+    iconurl="https://darkelwyn.github.io/octgn/Citadelles/ico.png"
+    octgnVersion="3.1.240.0"
+    scriptVersion="3.1.0.2"
+    markersize="30"
+	usetwosidedtable="False"
+    >
+    <scripts>
+	  <script src="Scripts/actions.py" />
+    </scripts>
+    <events>
+		<event name="OnGameStarted" action="setup"/>
+		<event name="OnCounterChanged" action="OnCounterChanged"/>
+		<event name="OnCardsMoved" action="OnCardsMoved"/>
+		<event name="OnTurnPassed" action="OnTurnPassed"/>
+		<event name="OnPhasePassed" action="OnPhasePassed"/>
+		<event name="OnCardDoubleClicked" action="OnCardDoubleClicked"/>
+	</events>
+    <sounds>
+    </sounds>
+    <fonts>
+    </fonts>
+    <proxygen definitionsrc="Proxies/proxydef.xml">
+    </proxygen>
+	<phases>
+	</phases>
+    <documents>
+		<document name="Regles du jeu" icon="" src="documents/regles.pdf" />
+    </documents> 
+    <gameModes>
+    </gameModes>
+    <globalvariables>
+		<globalvariable name="dateTimeDebut" value="0" />
+		<globalvariable name="winnerFound" value="False" />
+    </globalvariables>
+    <card back="cards/dos_lieu.jpg" front="cards/dos_lieu.jpg" width="130" height="200" cornerRadius="8">
+		<property name="couleur" type="String" />
+		<property name="quantite" type="Integer" />
+		<property name="prix" type="Integer" />
+		<property name="type" type="String" />
+		
+		<size name="Personnage" width="130" height="200" back="cards/dos_personnage.jpg" front="cards/dos_personnage.jpg" cornerRadius="8"/>
+		<size name="Token" width="130" height="85" back="cards/blank.png" front="cards/blank.png" cornerRadius="8"/>
+		<size name="Aide" width="200" height="130" back="cards/blank.png" front="cards/blank.png" cornerRadius="8"/>
+	</card>
+    <table name="Table" visibility="undefined" ordered="False" width="1400" height="850" background="Resources/rome.jpg" backgroundStyle="uniformToFill">
+		<groupaction menu="Arranger mes cartes" execute="arrange" />
+		<groupseparator />
+		<groupaction menu="Oups ... choisir mon personnage" execute="pickOnePersonnage" />
+		<groupaction menu="Oups ... commencer mon tour" execute="startMyTurn" />
+		<groupseparator />
+		<groupaction menu="Durée" execute="printGameDuration" />
+		
+		<cardaction menu="Nouveau tour du Roi" execute="newKingTurn" showIf="isCouronne" />
+        <cardaction menu="Faire l'action du personnage" execute="doActionPersonnages" showIf="isPersonnage" />
+        <cardaction menu="Payer 2 Or pour piocher 3 Quartiers" execute="doActionForge" showIf="isForge" />
+    </table>
+	<player summary="💰:{#Or} 🏠:{#Quartiers_construits}">
+		<counter name="Or" icon="Resources/piece.png" default="2" />
+		<counter name="Quartiers_construits" icon="Resources/chateau32.png" default="0" />
+		<hand name="Main" shortcut="ctrl+H" visibility="me" ordered="False" icon="Resources/plan.png">
+			<cardaction menu="Laboratoire : Défausser pour gagner 2 Or" execute="doActionLabo" showIf="isLaboBuilt" />
+		</hand>
+	</player>
+	<shared>
+		<group name="Quartiers" visibility="none" ordered="False" icon="Resources/chateau.png" collapsed="False"></group>
+		<group name="Personnages" visibility="none" ordered="False" icon="Resources/armure.png" collapsed="False"></group>
+	</shared>
+</game>

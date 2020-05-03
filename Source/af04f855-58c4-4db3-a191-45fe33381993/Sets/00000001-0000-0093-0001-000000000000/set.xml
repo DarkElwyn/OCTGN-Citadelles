@@ -1,0 +1,180 @@
+﻿<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<set name="Base Set" id="00000001-0000-0093-0001-000000000000" gameId="af04f855-58c4-4db3-a191-45fe33381993" gameVersion="1.0.0.0" version="1.0">
+    <cards>
+		<card id="00000001-0000-0093-0001-000000000001" size="Personnage" name="Assassin" />
+		<card id="00000001-0000-0093-0001-000000000002" size="Personnage" name="Voleur" />
+		<card id="00000001-0000-0093-0001-000000000003" size="Personnage" name="Magicien" />
+		<card id="00000001-0000-0093-0001-000000000004" size="Personnage" name="Roi" />
+		<card id="00000001-0000-0093-0001-000000000005" size="Personnage" name="Evêque" />
+		<card id="00000001-0000-0093-0001-000000000006" size="Personnage" name="Marchand" />
+		<card id="00000001-0000-0093-0001-000000000007" size="Personnage" name="Architecte" />
+		<card id="00000001-0000-0093-0001-000000000008" size="Personnage" name="Condottiere" />
+		
+		
+		<card id="00000001-0000-0093-0001-000000000010" name="Cathédrale">
+			<property name="couleur" value="Bleu"/>
+			<property name="quantite" value="2"/>
+			<property name="prix" value="5"/>
+		</card>
+		<card id="00000001-0000-0093-0001-000000000011" name="Eglise">
+			<property name="couleur" value="Bleu"/>
+			<property name="quantite" value="3"/>
+			<property name="prix" value="2"/>
+		</card>
+		<card id="00000001-0000-0093-0001-000000000012" name="Monastere">
+			<property name="couleur" value="Bleu"/>
+			<property name="quantite" value="3"/>
+			<property name="prix" value="3"/>
+		</card>
+		<card id="00000001-0000-0093-0001-000000000013" name="Temple">
+			<property name="couleur" value="Bleu"/>
+			<property name="quantite" value="3"/>
+			<property name="prix" value="1"/>
+		</card>
+		
+		
+		<card id="00000001-0000-0093-0001-000000000014" name="Château">
+			<property name="couleur" value="Jaune"/>
+			<property name="quantite" value="4"/>
+			<property name="prix" value="4"/>
+		</card>
+		<card id="00000001-0000-0093-0001-000000000015" name="Manoir">
+			<property name="couleur" value="Jaune"/>
+			<property name="quantite" value="5"/>
+			<property name="prix" value="3"/>
+		</card>
+		<card id="00000001-0000-0093-0001-000000000016" name="Palais">
+			<property name="couleur" value="Jaune"/>
+			<property name="quantite" value="3"/>
+			<property name="prix" value="5"/>
+		</card>
+		
+		
+		
+		<card id="00000001-0000-0093-0001-000000000017" name="Prison">
+			<property name="couleur" value="Rouge"/>
+			<property name="quantite" value="3"/>
+			<property name="prix" value="2"/>
+		</card>
+		<card id="00000001-0000-0093-0001-000000000018" name="Tour de guet">
+			<property name="couleur" value="Rouge"/>
+			<property name="quantite" value="3"/>
+			<property name="prix" value="1"/>
+		</card>
+		<card id="00000001-0000-0093-0001-000000000019" name="Forteresse">
+			<property name="couleur" value="Rouge"/>
+			<property name="quantite" value="2"/>
+			<property name="prix" value="5"/>
+		</card>
+		<card id="00000001-0000-0093-0001-000000000020" name="Caserne">
+			<property name="couleur" value="Rouge"/>
+			<property name="quantite" value="3"/>
+			<property name="prix" value="3"/>
+		</card>
+		
+		
+		
+		<card id="00000001-0000-0093-0001-000000000021" name="Taverne">
+			<property name="couleur" value="Vert"/>
+			<property name="quantite" value="2"/>
+			<property name="prix" value="1"/>
+		</card>
+		<card id="00000001-0000-0093-0001-000000000022" name="Marché">
+			<property name="couleur" value="Vert"/>
+			<property name="quantite" value="4"/>
+			<property name="prix" value="2"/>
+		</card>
+		<card id="00000001-0000-0093-0001-000000000023" name="Echoppe">
+			<property name="couleur" value="Vert"/>
+			<property name="quantite" value="3"/>
+			<property name="prix" value="2"/>
+		</card>
+		<card id="00000001-0000-0093-0001-000000000024" name="Port">
+			<property name="couleur" value="Vert"/>
+			<property name="quantite" value="3"/>
+			<property name="prix" value="4"/>
+		</card>
+		<card id="00000001-0000-0093-0001-000000000025" name="Comptoir">
+			<property name="couleur" value="Vert"/>
+			<property name="quantite" value="3"/>
+			<property name="prix" value="3"/>
+		</card>
+		<card id="00000001-0000-0093-0001-000000000026" name="Hôtel de Ville">
+			<property name="couleur" value="Vert"/>
+			<property name="quantite" value="2"/>
+			<property name="prix" value="5"/>
+		</card>
+		
+		
+		
+		
+		<card id="00000001-0000-0093-0001-000000000027" name="Bibliothèque">
+			<property name="couleur" value="Violet"/>
+			<property name="quantite" value="1"/>
+			<property name="prix" value="6"/>
+		</card>
+		<card id="00000001-0000-0093-0001-000000000028" name="Cimetière">
+			<property name="couleur" value="Violet"/>
+			<property name="quantite" value="1"/>
+			<property name="prix" value="5"/>
+		</card>
+		<card id="00000001-0000-0093-0001-000000000029" name="Cour des miracles">
+			<property name="couleur" value="Violet"/>
+			<property name="quantite" value="1"/>
+			<property name="prix" value="2"/>
+		</card>
+		<card id="00000001-0000-0093-0001-000000000030" name="Donjon">
+			<property name="couleur" value="Violet"/>
+			<property name="quantite" value="2"/>
+			<property name="prix" value="3"/>
+		</card>
+		<card id="00000001-0000-0093-0001-000000000032" name="Dracoport">
+			<property name="couleur" value="Violet"/>
+			<property name="quantite" value="1"/>
+			<property name="prix" value="6"/>
+		</card>
+		<card id="00000001-0000-0093-0001-000000000033" name="Ecole de Magie">
+			<property name="couleur" value="Violet"/>
+			<property name="quantite" value="1"/>
+			<property name="prix" value="6"/>
+		</card>
+		<card id="00000001-0000-0093-0001-000000000034" name="Forge">
+			<property name="couleur" value="Violet"/>
+			<property name="quantite" value="1"/>
+			<property name="prix" value="5"/>
+		</card>
+		<card id="00000001-0000-0093-0001-000000000035" name="Grande Muraille">
+			<property name="couleur" value="Violet"/>
+			<property name="quantite" value="1"/>
+			<property name="prix" value="6"/>
+		</card>
+		<card id="00000001-0000-0093-0001-000000000036" name="Laboratoire">
+			<property name="couleur" value="Violet"/>
+			<property name="quantite" value="1"/>
+			<property name="prix" value="5"/>
+		</card>
+		<card id="00000001-0000-0093-0001-000000000037" name="Observatoire">
+			<property name="couleur" value="Violet"/>
+			<property name="quantite" value="1"/>
+			<property name="prix" value="4"/>
+		</card>
+		<card id="00000001-0000-0093-0001-000000000038" name="Salle des Cartes">
+			<property name="couleur" value="Violet"/>
+			<property name="quantite" value="1"/>
+			<property name="prix" value="5"/>
+		</card>
+		<card id="00000001-0000-0093-0001-000000000039" name="Trésor Impérial">
+			<property name="couleur" value="Violet"/>
+			<property name="quantite" value="1"/>
+			<property name="prix" value="5"/>
+		</card>
+		<card id="00000001-0000-0093-0001-000000000040" name="Université">
+			<property name="couleur" value="Violet"/>
+			<property name="quantite" value="1"/>
+			<property name="prix" value="6"/>
+		</card>
+		
+		<card id="00000001-0000-0093-0001-000000000100" size="Token" name="Couronne" />
+		<card id="00000001-0000-0093-0001-000000000101" size="Aide" name="Aide" />
+    </cards>
+</set>
