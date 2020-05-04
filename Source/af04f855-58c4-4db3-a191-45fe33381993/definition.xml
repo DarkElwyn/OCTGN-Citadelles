@@ -2,7 +2,7 @@
 <game name="Citadelles"
     id="af04f855-58c4-4db3-a191-45fe33381993"
 	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-    version="1.0.1.0" 
+    version="1.1.1.1" 
     tags="Citadelles 45min 4-7joueurs"
     description="[4-7 joueurs][45min]
 	&#xd;Dans Citadelles, chaque joueur doit bâtir une cité à l’aide de cartes représentant les quartiers de la ville. À chaque tour, les joueurs doivent incarner un personnage doté de pouvoir particulier. Le gagnant sera celui auquel ambition, fortune et filouterie auront permis de bâtir la plus belle cité."
@@ -42,6 +42,8 @@
     <globalvariables>
 		<globalvariable name="dateTimeDebut" value="0" />
 		<globalvariable name="winnerFound" value="None" />
+		<globalvariable name="victimeVoleur" value="None" />
+		<globalvariable name="victimeAssassin" value="None" />
     </globalvariables>
     <card back="cards/dos_lieu.jpg" front="cards/dos_lieu.jpg" width="130" height="200" cornerRadius="8">
 		<property name="couleur" type="String" />
@@ -71,6 +73,7 @@
 		<counter name="Quartiers_construits" icon="Resources/chateau32.png" default="0" />
 		<hand name="Main" shortcut="ctrl+H" visibility="me" ordered="False" icon="Resources/plan.png">
 			<cardaction menu="Laboratoire : Défausser pour gagner 2 Or" execute="doActionLabo" showIf="isLaboBuilt" />
+			<cardaction menu="Pencher" execute="rotate" />
 		</hand>
 	</player>
 	<shared>
