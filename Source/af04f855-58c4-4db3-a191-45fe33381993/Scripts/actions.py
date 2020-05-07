@@ -580,7 +580,10 @@ def newKingTurn(a=0,b=0,c=0):
 	pickOnePersonnage()
 
 def pickOnePersonnage(a=0,b=0,c=0):
-	dialog = cardDlg(shared.personnages)
+	sortedPersos = [card for card in shared.personnages]
+	sortedPersos.sort(key=lambda x:x.model[35])
+
+	dialog = cardDlg(sortedPersos)
 	dialog.title = "Sélectionner 1 personnage"
 	dialog.min = 1
 	dialog.max = 1

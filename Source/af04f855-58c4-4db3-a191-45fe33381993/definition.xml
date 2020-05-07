@@ -2,7 +2,7 @@
 <game name="Citadelles"
     id="af04f855-58c4-4db3-a191-45fe33381993"
 	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-    version="1.1.1.1" 
+    version="1.2.0.6" 
     tags="Citadelles 45min 4-7joueurs"
     description="[4-7 joueurs][45min]
 	&#xd;Dans Citadelles, chaque joueur doit bâtir une cité à l’aide de cartes représentant les quartiers de la ville. À chaque tour, les joueurs doivent incarner un personnage doté de pouvoir particulier. Le gagnant sera celui auquel ambition, fortune et filouterie auront permis de bâtir la plus belle cité."
