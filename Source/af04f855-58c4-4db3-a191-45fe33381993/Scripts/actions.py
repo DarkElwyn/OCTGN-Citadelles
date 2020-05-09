@@ -15,6 +15,8 @@ def OnCounterChanged(args):
 		counter.value = 0
 	if "Quartiers_construits" in counter.name and not args.scripted:
 		counter.value = args.value
+	if "Points" in counter.name and not args.scripted:
+		counter.value = args.value
 
 def OnCardsMoved(args):
 	if args.player == me:
@@ -57,7 +59,7 @@ def setup():
 		notify("- Glisser son personnage sur le plateau lorsque c'est son tour")
 		notify("- Glisser un quartier sur le plateau pour l'acheter")
 		notify("- Double cliquer sur son personnage pour activer son pouvoir\n")
-		notify("Le premier joueur qui a construit 7 quartiers déclenche la fin de partie")
+		notify("Le premier joueur qui a construit {} quartiers déclenche la fin de partie".format(getLimitToWin()))
 		notify("################################")
 		
 		createRangeCards(shared.quartiers, 10, 40, type="Quartier")
@@ -162,6 +164,7 @@ def getKingSuffix():
 	return kingSuffix[hyperRnd(0, len(kingSuffix)-1)]
 
 def doIAmDead(victime):
+	mute()
 	for card in me.hand:
 		if card.name in victime:
 			card.orientation = 1
@@ -188,11 +191,12 @@ def doActionVoleur(card):
 		
 		#on exclut la victime de l'assassin
 		victimeAssassin = getGlobalVariable("victimeAssassin")
-		victimeIndex = choiceList.index(victimeAssassin)
-		victimeCouleur = colorsList[victimeIndex]
+		if victimeAssassin != "None":
+			victimeIndex = choiceList.index(victimeAssassin)
+			victimeCouleur = colorsList[victimeIndex]
 		
-		choiceList.remove(victimeAssassin)
-		colorsList.remove(victimeCouleur)
+			choiceList.remove(victimeAssassin)
+			colorsList.remove(victimeCouleur)
 		
 		choice = askChoice("Quel personnage voler ?", choiceList, colorsList)
 		
@@ -245,16 +249,22 @@ def doActionMagicien(card):
 def doActionRoi(card):
 	mute()
 	if "Roi" in card.name:
-		notify("Vive le nouveau Roi : {} {}".format(me, getKingSuffix()))
 		#le Roi prend le controlle de la couronne
-		for card in table:
-			if isCouronne(card):
-				card.controller = me
+		for cardCouronne in table:
+			if isCouronne(cardCouronne):
+				cardCouronne.controller = me
+				cardCouronne.moveToTable(card.position[0], card.position[1]-95)
 				break
 		
-		gain = countCardOfColourOnBoard("Jaune")
-		me.Or += gain
-		notify("Le Roi {} collecte la capitation et gagne {} pièce{} d'or".format(me, str(gain), pluriel(gain)))
+		#check si on se fait tuer
+		victimeAssassin = getGlobalVariable("victimeAssassin")
+		if card.name in victimeAssassin:
+			notify("Le Roi est mort, l'héritier {} {} est courroné".format(me, getKingSuffix()))
+		else:
+			notify("Vive le nouveau Roi : {} {}".format(me, getKingSuffix()))
+			gain = countCardOfColourOnBoard("Jaune")
+			me.Or += gain
+			notify("Le Roi {} collecte la capitation et gagne {} pièce{} d'or".format(me, str(gain), pluriel(gain)))
 
 def doActionEveque(card):
 	mute()
@@ -376,17 +386,21 @@ def refreshBuildingCounter(a=0):
 				count += 1
 	me.quartiers_construits = count
 	checkWinner()
+	me.points = calculateMyScore(False)
 
+def getLimitToWin():
+	return 7 if len(getPlayers()) > 3 else 8
+		
 def checkWinner():
 	winner = whoIsWinner()
 	if winner and getGlobalVariable("winnerFound") == "None":
-		notifyBarAll("{} a construit 7 batiments, c'est donc le dernier tour !".format(winner))
+		notifyBarAll("{} a construit {} batiments, c'est donc le dernier tour !".format(winner, getLimitToWin()))
 		setGlobalVariable("winnerFound", winner._id)
 
 def whoIsWinner():
 	end = False
 	for player in getPlayers():
-		if player.quartiers_construits >= 7:
+		if player.quartiers_construits >= getLimitToWin():
 			end = player
 	return end
 
@@ -419,7 +433,7 @@ def pluriel(count):
 		return 's'
 	return ''
 
-def calculateMyScore():
+def calculateMyScore(explain=True):
 	score = 0
 	summary = "-----------------------------------------"
 	summary = "\nCalcul des points de {} :\n".format(me)
@@ -459,7 +473,9 @@ def calculateMyScore():
 		summary += "\nBonus : Salle des Carte = {} points".format(str(len(me.hand)))
 	
 	summary += "\n\nLe score total de {} est de {} points".format(me, score)
-	notify(summary)
+	if explain:
+		notify(summary)
+	return score
 
 def rotate(card,x=0,y=0):
 	if card.orientation == 0:
@@ -506,6 +522,7 @@ def arrange(group = (), x = 0, y = 0):
 
 def startMyTurn(card,b=0,c=0):
 	notify("{} commence son tour".format(me))
+	me.setGlobalVariable("hasDonePowerAlready", "False")
 	
 	#check si on se fait voler
 	victimeVoleur = getGlobalVariable("victimeVoleur")
@@ -560,12 +577,18 @@ def newKingTurn(a=0,b=0,c=0):
 	for card in table:
 		if isPersonnage(card) or "Ghost" in card.type:
 			card.moveTo(shared.personnages)
+	
+	for player in getPlayers():
+		for card in player.hand:
+			if isPersonnage(card):
+				card.moveTo(shared.personnages)
 
-	visible = [ 0, 2, 2, 2, 2, 1, 0, 0 ]
+	visible = [ 0, 2, 2, 0, 2, 1, 0, 0 ]
 	shared.personnages.shuffle()
+	cardsExceptKing = [card for card in shared.personnages if not "Roi" in card.Name]
 	
 	i = 0
-	for card in shared.personnages.top(visible[len(getPlayers())]):
+	for card in cardsExceptKing[0:visible[len(getPlayers())]]:
 		card.moveToTable(-65-140+i*(140*2), -100, False)
 		card.type = "Ghost"
 		i += 1
@@ -595,6 +618,13 @@ def pickOnePersonnage(a=0,b=0,c=0):
 			card.moveTo(me.hand)
 			card.type = "Personnage"
 		
+		#règle spéciale à 7 joueurs
+		if len(getPlayers()) == 7:
+			if len(shared.personnages) == 1:
+				for card in table:
+					if "Ghost" in card.type and card.isFaceUp == False:
+						card.moveTo(shared.personnages)
+		
 		if len(shared.personnages) >= 2:
 			whisper("Le prochain à choisir un personnage est {}".format(getNextPlayer()))
 			remoteCall(getNextPlayer(), "pickOnePersonnage", [])
@@ -606,6 +636,11 @@ def pickOnePersonnage(a=0,b=0,c=0):
 		whisper("Pour choisir de nouveau : Clic droit sur la table > Oups... choisir mon personnage")
 
 def doActionPersonnages(card,x=0,y=0):
+	hasDonePowerAlready = eval(me.getGlobalVariable("hasDonePowerAlready"))
+	if hasDonePowerAlready:
+		whisper("Le pouvoir de votre personnage à déjà été utilisé.")
+		return
+	
 	doActionAssassin(card)
 	doActionVoleur(card)
 	doActionMagicien(card)
@@ -614,3 +649,4 @@ def doActionPersonnages(card,x=0,y=0):
 	doActionMarchand(card)
 	doActionCondo(card)
 	doActionArchitecte(card)
+	me.setGlobalVariable("hasDonePowerAlready", "True")
