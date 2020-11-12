@@ -2,7 +2,7 @@
 <game name="Citadelles"
     id="af04f855-58c4-4db3-a191-45fe33381993"
 	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-    version="1.3.0.8" 
+    version="1.3.2.10" 
     tags="Citadelles 45min 4-7joueurs"
     description="[3-7 joueurs][45min]
 	&#xd;Dans Citadelles, chaque joueur doit bâtir une cité à l’aide de cartes représentant les quartiers de la ville. À chaque tour, les joueurs doivent incarner un personnage doté de pouvoir particulier. Le gagnant sera celui auquel ambition, fortune et filouterie auront permis de bâtir la plus belle cité."
@@ -10,7 +10,7 @@
 	gameurl="https://darkelwyn.github.io/octgn/Citadelles/"
     authors="RomElwyn"
     iconurl="https://darkelwyn.github.io/octgn/Citadelles/ico.png"
-    octgnVersion="3.1.240.0"
+    octgnVersion="3.4.240.0"
     scriptVersion="3.1.0.2"
     markersize="30"
 	usetwosidedtable="False"
@@ -72,10 +72,10 @@
 		<counter name="Or" icon="Resources/piece.png" default="2" />
 		<counter name="Quartiers_construits" icon="Resources/chateau32.png" default="0" />
 		<counter name="Points" icon="Resources/lys.png" default="0" />
-		<hand name="Main" shortcut="ctrl+H" visibility="me" ordered="False" icon="Resources/plan.png">
+		<group name="hand" shortcut="ctrl+H" visibility="me" ordered="False" icon="Resources/plan.png" viewState="expanded">
 			<cardaction menu="Laboratoire : Défausser pour gagner 2 Or" execute="doActionLabo" showIf="isLaboBuilt" />
 			<cardaction menu="Pencher" execute="rotate" />
-		</hand>
+		</group>
 		<globalvariable name="hasDonePowerAlready" value="False" />
 	</player>
 	<shared>
